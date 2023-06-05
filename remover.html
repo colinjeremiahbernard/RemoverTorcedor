@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>removerTorcedorEspecifico</title>
+  <style>
+    * {
+      background-color: aqua;
+      color:gold;
+      font-size: 25px;
+    }
+    h1 {
+      font-size: 30px;
+      color:purple;
+    }
+    button {
+      background-color: blue;
+      border: 2px solid brown;
+      border-radius: 20px;
+    }
+    button:hover {
+      background-color: lawngreen;
+      color: brown;
+    }
+    :placeholder-shown {
+      font-size: 20px;
+  }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Adicionar Torcedor</h1>
+        <span>Nome: </span><input type="text" v-model="nome" id="inputNome" placeholder="Nome do torcedor">
+        <span>Idade: </span><input type="text" v-model="idade" id="inputIdade" placeholder="Idade do torcedor">
+        <span>Time: </span><input type="text" v-model="time" id="inputTime" placeholder="Time do torcedor">
+        <button @click="adicionarTorcedor()">Adicionar</button> <hr>
+    <h1>Ultimo torcedor Cadastrado</h1>
+        <template v-if="torcedores.length > 0">
+           <p>{{ ultimoTorcedor }}</p>
+        </template> <hr>
+    <h1>Todos os torcedores cadastrados</h1>
+    <p v-for="t in torcedores">Torcedor: {{ t.nome }}</p> <hr>
+    <span>Nome:</span><input type="text" v-model="nomeRemover" placeholder="Torcedor a ser removido">
+    <button @click="removerTorcedor()">Remover</button>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        torcedores: [],
+        nome: '',
+        idade: '',
+        time: '',
+        nomeRemover: ''
+      },
+      methods: {
+        adicionarTorcedor() {
+          this.torcedores.push({
+            nome: this.nome,
+            idade: this.idade,
+            time: this.time
+          });
+          this.nome = '';
+          this.idade = '';
+          this.time = '';
+        },
+        removerTorcedor() {
+          this.torcedores = this.torcedores.filter(item =>
+            item.nome !== this.nomeRemover);
+          this.nomeRemover = '';
+        }
+      },
+      computed: {
+        ultimoTorcedor() {
+          let key = this.torcedores.length - 1;
+          let txt = '';
+
+          txt += 'Torcedor: ' + this.torcedores[key].nome;
+          txt += ' - Idade: ' + this.torcedores[key].idade;
+          txt += ' - Time: ' + this.torcedores[key].time;
+          return txt;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
